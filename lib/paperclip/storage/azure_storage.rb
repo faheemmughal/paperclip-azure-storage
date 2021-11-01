@@ -46,6 +46,10 @@ module Paperclip
         ::File.open(local_dest_path, 'wb') { |local_file| local_file.write(content) }
       end
 
+      def azure_url(style_name = default_style)
+        "#{@options[:resource]}/#{@options[:container]}/#{path(style_name)}".squeeze('/')
+      end
+
       private
 
       def storage_client
