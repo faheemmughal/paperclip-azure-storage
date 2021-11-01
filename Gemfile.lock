@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    paperclip-azure-storage (0.1.0)
+    paperclip-azure-storage (0.1.1)
       azure-storage-blob (>= 1)
-      paperclip (>= 5.1.0)
+      paperclip (>= 5.1)
 
 GEM
   remote: https://rubygems.org/
