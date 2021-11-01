@@ -4,8 +4,8 @@ source "https://rubygems.org"
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-gem "paperclip", "~> 6.1"
-gem "azure-storage-blob", "~> 2.0"
+gem "paperclip", ">= 6"
+gem "azure-storage-blob", ">= 2"
 
 group :test do
   gem "rspec", "~> 3.10"

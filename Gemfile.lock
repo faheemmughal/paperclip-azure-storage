@@ -106,8 +106,8 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 6.1)
-  azure-storage-blob (~> 2.0)
-  paperclip (~> 6.1)
+  azure-storage-blob (>= 2)
+  paperclip (>= 6)
   rspec (~> 3.10)
   sqlite3 (~> 1.4)
   webmock (~> 3.14)
