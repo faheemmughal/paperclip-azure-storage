@@ -1,12 +1,24 @@
 Gem::Specification.new do |s|
-  s.name        = 'paperclip-azure-storage'
-  s.version     = '0.1.0'
-  s.licenses    = ['MIT']
-  s.summary     = "Paperclip Adapter for Azure Storage"
+  s.name = 'paperclip-azure-storage'
+  s.version = '0.1.0'
+  s.licenses = ['MIT']
+  s.summary = "Paperclip Adapter for Azure Storage"
   s.description = "paperclip-azure-storage is a paperclip adapter for azure storage that use service principal name (SPN) authentication"
-  s.authors     = ["Irsyad Rizaldi"]
-  s.email       = 'irsyad.rizaldi97@gmail.com'
-  s.files       = []
-  s.homepage    = 'https://github.com/dadangeuy/paperclip-azure-storage'
-  s.metadata    = { "source_code_uri" => "https://github.com/dadangeuy/paperclip-azure-storage" }
+  s.authors = ["Irsyad Rizaldi"]
+  s.email = 'irsyad.rizaldi97@gmail.com'
+  s.homepage = 'https://github.com/dadangeuy/paperclip-azure-storage'
+  s.metadata = { "source_code_uri" => "https://github.com/dadangeuy/paperclip-azure-storage" }
+
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {spec,features}/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.require_paths = ['lib']
+
+  s.add_dependency 'azure-storage-blob', '>= 1'
+  s.add_dependency 'paperclip', '>= 5.1'
+
+  s.add_development_dependency 'activerecord', '~> 6.1'
+  s.add_development_dependency 'rspec', '~> 3.10'
+  s.add_development_dependency 'sqlite3', '~>1.4'
+  s.add_development_dependency 'webmock', '~> 3.14'
 end

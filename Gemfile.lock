@@ -1,3 +1,10 @@
+PATH
+  remote: .
+  specs:
+    paperclip-azure-storage (0.1.0)
+      azure-storage-blob (>= 1)
+      paperclip (>= 5.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -58,13 +65,11 @@ GEM
     mimemagic (0.3.10)
       nokogiri (~> 1)
       rake
-    mini_portile2 (2.5.3)
     minitest (5.14.4)
     multipart-post (2.1.1)
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
-    nokogiri (1.11.7)
-      mini_portile2 (~> 2.5.0)
+    nokogiri (1.11.7-x86_64-linux)
       racc (~> 1.4)
     paperclip (6.1.0)
       activemodel (>= 4.2.0)
@@ -106,8 +111,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 6.1)
-  azure-storage-blob (>= 2)
-  paperclip (>= 6)
+  paperclip-azure-storage!
   rspec (~> 3.10)
   sqlite3 (~> 1.4)
   webmock (~> 3.14)
