@@ -25,3 +25,9 @@ Paperclip::Attachment.default_options[:resource] = 'https://mystorage.blob.core.
 Paperclip::Attachment.default_options[:storage_name] = 'mystorage'
 Paperclip::Attachment.default_options[:container] = 'mycontainer'
 ```
+3. Upload & access your image
+```ruby
+image_content = '<some-image>'
+model = model_class.create!(image: image_content) # upload image to azure
+model.image.azure_url # get azure image url
+```
