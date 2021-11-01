@@ -58,13 +58,13 @@ module Paperclip
         return unless expired
 
         @access_token, @expires_on = create_access_token
-        @token_credential.renew_token(@access_token['access_token'])
+        @token_credential.renew_token(@access_token)
       end
 
       def create_storage_client
         storage_name = @options[:storage_name]
         @access_token, @expires_on = create_access_token
-        @token_credential = ::Azure::Storage::Common::Core::TokenCredential.new(@access_token['access_token'])
+        @token_credential = ::Azure::Storage::Common::Core::TokenCredential.new(@access_token)
         token_signer = ::Azure::Storage::Common::Core::Auth::TokenSigner.new(@token_credential)
         ::Azure::Storage::Blob::BlobService.new(storage_account_name: storage_name, signer: token_signer)
       end
@@ -79,6 +79,7 @@ module Paperclip
         requested_at = Time.now.to_i
         response = faraday_client.post("#{tenant_id}/oauth2/token") do |request|
           request.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+          request.headers['Accept'] = 'application/json'
           request_payload = {
             client_id: client_id,
             client_secret: client_secret,
@@ -99,6 +100,7 @@ module Paperclip
           client.request :retry
           client.response :json
           client.response :raise_error
+          client.adapter :net_http
         end
       end
     end
