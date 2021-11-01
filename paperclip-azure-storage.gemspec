@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.version = '0.1.2'
   s.licenses = ['MIT']
   s.summary = "Paperclip Adapter for Azure Storage"
-  s.description = "paperclip-azure-storage is a paperclip adapter for azure storage that use service principal name (SPN) authentication"
+  s.description = 'paperclip-azure-storage is a paperclip adapter for azure storage that use service principal authentication'
   s.authors = ["Irsyad Rizaldi"]
   s.email = 'irsyad.rizaldi97@gmail.com'
   s.homepage = 'https://github.com/dadangeuy/paperclip-azure-storage'
