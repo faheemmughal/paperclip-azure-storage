@@ -1,5 +1,4 @@
-require './lib/azure_storage'
-
+require './lib/paperclip/storage/azure_storage'
 require 'rspec'
 require 'paperclip'
 require 'active_record'
