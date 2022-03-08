@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 2.3.0"
 
-  s.add_dependency 'azure-storage-blob', '>= 1.0.0', '< 3.0.0'
+  s.add_dependency 'azure-storage-blob', '>= 1.0.0', '< 2.0.0'
   s.add_dependency 'paperclip', '>= 5.1.0', '< 7.0.0'
 
   s.add_development_dependency 'activerecord', '~> 5.2.0'
