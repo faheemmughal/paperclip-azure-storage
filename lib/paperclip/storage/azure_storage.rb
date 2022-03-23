@@ -50,6 +50,30 @@ module Paperclip
         "#{@options[:resource]}/#{@options[:container]}/#{path(style_name)}".squeeze('/')
       end
 
+      def expiring_url(time = 3600, style_name = default_style)
+        if path(style_name)
+          renew_expired_token # refreshes token if expired
+          shared_access_signature = ::Azure::Core::Auth::SharedAccessSignature.new(
+            @options[:storage_name],
+            @token_credential.token
+            # azure_credentials[:storage_access_key]
+            # storage_client.signer
+          )
+          # obj_path = path(style_name).gsub(%r{\A/}, '')
+          # base_url = "#{azure_url(style_name)}?#{obj_path}"
+          shared_access_signature.signed_uri(
+            URI(azure_url(style_name)),
+            false,
+            service: 'b',
+            resource: 'b',
+            permissions: 'r',
+          )
+        else
+          # url(style_name)
+          azure_url(style_name)
+        end
+      end
+
       private
 
       def storage_client
