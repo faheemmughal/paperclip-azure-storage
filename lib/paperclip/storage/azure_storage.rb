@@ -55,7 +55,7 @@ module Paperclip
           storage_client # refreshes token if expired
           shared_access_signature = ::Azure::Storage::Common::Core::Auth::SharedAccessSignature.new(
             @options[:storage_name],
-            @token_credential.token
+            Base64.strict_encode64(@token_credential.token)
             # azure_credentials[:storage_access_key]
             # storage_client.signer
           )
