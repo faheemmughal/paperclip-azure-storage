@@ -52,7 +52,7 @@ module Paperclip
 
       def expiring_url(time = 3600, style_name = default_style)
         if path(style_name)
-          renew_expired_token # refreshes token if expired
+          storage_client # refreshes token if expired
           shared_access_signature = ::Azure::Storage::Common::Core::Auth::SharedAccessSignature.new(
             @options[:storage_name],
             @token_credential.token
