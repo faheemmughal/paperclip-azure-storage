@@ -58,6 +58,7 @@ module Paperclip
             "",
             get_user_delegation_key
           )
+          puts "Azure url: #{azure_url(style_name)}"
           shared_access_signature.signed_uri(
             URI(azure_url(style_name)),
             false,
@@ -99,7 +100,27 @@ module Paperclip
             get_user_delegation_key
           )
           shared_access_signature.signed_uri(
-            storage_client.blob_uri(@options[:container], path(style_name)),
+            storage_client.generate_uri("#{@options[:container]}/#{path(style_name)}".squeeze('/')),
+            false,
+            service: 'b',
+            resource: 'b',
+            permissions: 'r',
+          )
+        else
+          azure_url(style_name)
+        end
+      end
+
+      def expiring_path2(time = 3600, style_name = default_style)
+        if path(style_name)
+          storage_client # refreshes token if expired
+          shared_access_signature = ::Azure::Storage::Common::Core::Auth::SharedAccessSignature.new(
+            @options[:storage_name],
+            "",
+            get_user_delegation_key
+          )
+          shared_access_signature.signed_uri(
+            URI("#{@options[:container]}/#{path(style_name)}".squeeze('/')),
             false,
             service: 'b',
             resource: 'b',
@@ -152,6 +173,7 @@ module Paperclip
         token_signer = ::Azure::Storage::Common::Core::Auth::TokenSigner.new(@token_credential)
         service = ::Azure::Storage::Blob::BlobService.new(storage_account_name: storage_name, signer: token_signer)
         service.with_filter Azure::Core::Http::DebugFilter.new
+        service.with_filter Azure::Storage::Common::Core::Filter::ExponentialRetryPolicyFilter.new
         service
       end
 
