@@ -55,12 +55,9 @@ module Paperclip
           storage_client # refreshes token if expired
           shared_access_signature = ::Azure::Storage::Common::Core::Auth::SharedAccessSignature.new(
             @options[:storage_name],
-            Base64.strict_encode64(@token_credential.token)
-            # azure_credentials[:storage_access_key]
-            # storage_client.signer
+            "",
+            get_user_delegation_key
           )
-          # obj_path = path(style_name).gsub(%r{\A/}, '')
-          # base_url = "#{azure_url(style_name)}?#{obj_path}"
           shared_access_signature.signed_uri(
             URI(azure_url(style_name)),
             false,
@@ -69,7 +66,6 @@ module Paperclip
             permissions: 'r',
           )
         else
-          # url(style_name)
           azure_url(style_name)
         end
       end
@@ -81,12 +77,32 @@ module Paperclip
         @storage_client ||= create_storage_client
       end
 
+      def get_user_delegation_key
+        renew_expired_user_delegation_key
+        @user_delegation_key ||= get_fresh_user_delegation_key
+      end
+
       def renew_expired_token
         expired = @expires_on.present? && Time.now.to_i >= @expires_on.to_i
         return unless expired
 
         @access_token, @expires_on = create_access_token
         @token_credential.renew_token(@access_token)
+      end
+
+      def renew_expired_user_delegation_key
+        expired = @delegation_key_expires_on.present? && @delegation_key_expires_on < 1.hour.from_now
+        return unless expired
+
+        @user_delegation_key = get_fresh_user_delegation_key
+      end
+
+      def get_fresh_user_delegation_key
+        @delegation_key_expires_on = 1.day.from_now
+        storage_client.get_user_delegation_key(
+          Time.now,
+          @delegation_key_expires_on
+        )
       end
 
       def create_storage_client
