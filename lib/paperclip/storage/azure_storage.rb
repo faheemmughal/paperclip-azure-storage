@@ -47,10 +47,11 @@ module Paperclip
       end
 
       def azure_url(style_name = default_style)
-        "#{@options[:resource]}/#{@options[:container]}/#{path(style_name)}".squeeze('/')
+        path_with_container = "#{@options[:container]}/#{path(style_name)}".squeeze('/')
+        "#{@options[:resource]}/#{path_with_container}"
       end
 
-      def expiring_url(time = 3600, style_name = default_style)
+      def expiring_url2(time = 3600, style_name = default_style)
         if path(style_name)
           storage_client # refreshes token if expired
           shared_access_signature = ::Azure::Storage::Common::Core::Auth::SharedAccessSignature.new(
@@ -71,27 +72,7 @@ module Paperclip
         end
       end
 
-      def expiring_url2(time = 3600, style_name = default_style)
-        if path(style_name)
-          storage_client # refreshes token if expired
-          shared_access_signature = ::Azure::Storage::Common::Core::Auth::SharedAccessSignature.new(
-            @options[:storage_name],
-            "",
-            get_user_delegation_key
-          )
-          shared_access_signature.signed_uri(
-            azure_url(style_name),
-            false,
-            service: 'b',
-            resource: 'b',
-            permissions: 'r',
-          )
-        else
-          azure_url(style_name)
-        end
-      end
-
-      def expiring_path(time = 3600, style_name = default_style)
+      def expiring_url(time = 3600, style_name = default_style)
         if path(style_name)
           storage_client # refreshes token if expired
           shared_access_signature = ::Azure::Storage::Common::Core::Auth::SharedAccessSignature.new(
@@ -101,26 +82,6 @@ module Paperclip
           )
           shared_access_signature.signed_uri(
             storage_client.generate_uri("#{@options[:container]}/#{path(style_name)}".squeeze('/')),
-            false,
-            service: 'b',
-            resource: 'b',
-            permissions: 'r',
-          )
-        else
-          azure_url(style_name)
-        end
-      end
-
-      def expiring_path2(time = 3600, style_name = default_style)
-        if path(style_name)
-          storage_client # refreshes token if expired
-          shared_access_signature = ::Azure::Storage::Common::Core::Auth::SharedAccessSignature.new(
-            @options[:storage_name],
-            "",
-            get_user_delegation_key
-          )
-          shared_access_signature.signed_uri(
-            URI("#{@options[:container]}/#{path(style_name)}".squeeze('/')),
             false,
             service: 'b',
             resource: 'b',
