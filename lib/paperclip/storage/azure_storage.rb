@@ -70,6 +70,46 @@ module Paperclip
         end
       end
 
+      def expiring_url2(time = 3600, style_name = default_style)
+        if path(style_name)
+          storage_client # refreshes token if expired
+          shared_access_signature = ::Azure::Storage::Common::Core::Auth::SharedAccessSignature.new(
+            @options[:storage_name],
+            "",
+            get_user_delegation_key
+          )
+          shared_access_signature.signed_uri(
+            azure_url(style_name),
+            false,
+            service: 'b',
+            resource: 'b',
+            permissions: 'r',
+          )
+        else
+          azure_url(style_name)
+        end
+      end
+
+      def expiring_path(time = 3600, style_name = default_style)
+        if path(style_name)
+          storage_client # refreshes token if expired
+          shared_access_signature = ::Azure::Storage::Common::Core::Auth::SharedAccessSignature.new(
+            @options[:storage_name],
+            "",
+            get_user_delegation_key
+          )
+          shared_access_signature.signed_uri(
+            storage_client.blob_uri(@options[:container], path(style_name)),
+            false,
+            service: 'b',
+            resource: 'b',
+            permissions: 'r',
+          )
+        else
+          azure_url(style_name)
+        end
+      end
+
       private
 
       def storage_client
@@ -110,7 +150,9 @@ module Paperclip
         @access_token, @expires_on = create_access_token
         @token_credential = ::Azure::Storage::Common::Core::TokenCredential.new(@access_token)
         token_signer = ::Azure::Storage::Common::Core::Auth::TokenSigner.new(@token_credential)
-        ::Azure::Storage::Blob::BlobService.new(storage_account_name: storage_name, signer: token_signer)
+        service = ::Azure::Storage::Blob::BlobService.new(storage_account_name: storage_name, signer: token_signer)
+        service.with_filter Azure::Core::Http::DebugFilter.new
+        service
       end
 
       def create_access_token
