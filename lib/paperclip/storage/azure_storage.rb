@@ -83,16 +83,6 @@ module Paperclip
         ::Azure::Storage::Blob::BlobService.new(storage_account_name: storage_name, signer: token_signer)
       end
 
-      def create_access_token
-        tenant_id = @options[:tenant_id]
-        client_id = @options[:client_id]
-        client_secret = @options[:client_secret]
-        resource = @options[:resource]
-        grant_type = 'client_credentials'
-
-        requested_at = Time.now.to_i
-        response = faraday_client.post("#{tenant_id}/oauth2/token") do |request|
-          request.headers['Content-Type'] = 'application/x-www-form-urlencoded'
           request.headers['Accept'] = 'application/json'
           request_payload = {
             client_id: client_id,
