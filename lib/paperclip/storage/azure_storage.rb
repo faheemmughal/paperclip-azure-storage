@@ -72,9 +72,7 @@ module Paperclip
         @access_token, @expires_on = create_access_token
         # hello
         @token_credential = ::Azure::Storage::Common::Core::TokenCredential.new(@access_token)
-
         token_signer = ::Azure::Storage::Common::Core::Auth::TokenSigner.new(@token_credential)
-
         ::Azure::Storage::Blob::BlobService.new(storage_account_name: storage_name, signer: token_signer)
       end
 
@@ -82,7 +80,6 @@ module Paperclip
         storage_name = @options[:storage_name]
         # yes
         @access_token, @expires_on = create_access_token
-        puts 'hello'
         @token_credential = ::Azure::Storage::Common::Core::TokenCredential.new(@access_token)
         # no
         token_signer = ::Azure::Storage::Common::Core::Auth::TokenSigner.new(@token_credential)
