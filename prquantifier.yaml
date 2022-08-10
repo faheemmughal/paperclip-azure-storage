@@ -10,13 +10,13 @@ Excluded:
 - '*.snap'
 - schema.rb
 Thresholds:
-- Value: 10
+- Value: 5
   Label: Extra Small
   Color: Green
-- Value: 40
+- Value: 10
   Label: Small
   Color: Green
-- Value: 100
+- Value: 15
   Label: Medium
   Color: Yellow
 - Value: 400
