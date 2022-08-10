@@ -6,6 +6,7 @@ module Paperclip
         require 'azure/storage/common'
       end
 
+      # kaali behrain
       def exists?(style_name = default_style)
         container = @options[:container]
         storage_client.list_blobs(
