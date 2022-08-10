@@ -13,15 +13,20 @@ Thresholds:
 - Value: 5
   Label: Extra Small
   Color: Green
+  Formula: Max
 - Value: 10
   Label: Small
   Color: Green
+  Formula: Max
 - Value: 15
   Label: Medium
   Color: Yellow
+  Formula: Max
 - Value: 400
   Label: Large
   Color: Red
+  Formula: Max
 - Value: 1000
   Label: Extra Large
   Color: Red
+  Formula: Max
