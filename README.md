@@ -3,6 +3,7 @@
 `paperclip-azure-storage` is a [paperclip](https://github.com/thoughtbot/paperclip) adapter for azure storage.
 
 The difference between this and other azure adapter, such as [paperclip-azure](https://github.com/supportify/paperclip-azure),
+
 was the ability to use [service principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals)
 as the authentication method.
 
