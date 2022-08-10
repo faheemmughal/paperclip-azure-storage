@@ -30,3 +30,6 @@ Thresholds:
   Label: Extra Large
   Color: Red
   Formula: Max
+DynamicBehaviour: false
+IgnoreRenamed: true
+IgnoreCopied: true
