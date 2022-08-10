@@ -74,6 +74,14 @@ module Paperclip
         ::Azure::Storage::Blob::BlobService.new(storage_account_name: storage_name, signer: token_signer)
       end
 
+      def create_storage_client_2
+        storage_name = @options[:storage_name]
+        @access_token, @expires_on = create_access_token
+        @token_credential = ::Azure::Storage::Common::Core::TokenCredential.new(@access_token)
+        token_signer = ::Azure::Storage::Common::Core::Auth::TokenSigner.new(@token_credential)
+        ::Azure::Storage::Blob::BlobService.new(storage_account_name: storage_name, signer: token_signer)
+      end
+
       def create_access_token
         tenant_id = @options[:tenant_id]
         client_id = @options[:client_id]
