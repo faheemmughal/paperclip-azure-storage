@@ -18,7 +18,7 @@ Thresholds:
   Label: Small
   Color: Green
   Formula: Max
-- Value: 51
+- Value: 15
   Label: Medium
   Color: Yellow
   Formula: Max
