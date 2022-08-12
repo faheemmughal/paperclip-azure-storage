@@ -1,5 +1,0 @@
-*.md linguist-generated=true
-*.lock linguist-generated=true
-*.json linguist-generated=true
-*.snap linguist-generated=true
-schema.rb linguist-generated=true
