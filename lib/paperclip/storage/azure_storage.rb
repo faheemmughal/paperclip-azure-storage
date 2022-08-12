@@ -6,6 +6,7 @@ module Paperclip
         require 'azure/storage/common'
       end
 
+      # kaali behrain
       def exists?(style_name = default_style)
         container = @options[:container]
         storage_client.list_blobs(
@@ -67,22 +68,21 @@ module Paperclip
 
       def create_storage_client
         storage_name = @options[:storage_name]
+
         @access_token, @expires_on = create_access_token
         @token_credential = ::Azure::Storage::Common::Core::TokenCredential.new(@access_token)
         token_signer = ::Azure::Storage::Common::Core::Auth::TokenSigner.new(@token_credential)
         ::Azure::Storage::Blob::BlobService.new(storage_account_name: storage_name, signer: token_signer)
       end
 
-      def create_access_token
-        tenant_id = @options[:tenant_id]
-        client_id = @options[:client_id]
-        client_secret = @options[:client_secret]
-        resource = @options[:resource]
-        grant_type = 'client_credentials'
+      def create_storage_client_2
+        storage_name = @options[:storage_name]
+        @access_token, @expires_on = create_access_token
+        @token_credential = ::Azure::Storage::Common::Core::TokenCredential.new(@access_token)
+        token_signer = ::Azure::Storage::Common::Core::Auth::TokenSigner.new(@token_credential)
+        ::Azure::Storage::Blob::BlobService.new(storage_account_name: storage_name, signer: token_signer)
+      end
 
-        requested_at = Time.now.to_i
-        response = faraday_client.post("#{tenant_id}/oauth2/token") do |request|
-          request.headers['Content-Type'] = 'application/x-www-form-urlencoded'
           request.headers['Accept'] = 'application/json'
           request_payload = {
             client_id: client_id,
